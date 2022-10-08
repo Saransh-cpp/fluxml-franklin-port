@@ -32,12 +32,14 @@ jobs:
     #   Julia packages which may be required to successfully build your site.
     #   The last line should be `optimize()` though you may want to give it
     #   specific arguments, see the documentation or ?optimize in the REPL.
-    - run: julia -e '
+    - run: |
+        julia -e '
             using Pkg; Pkg.add(["NodeJS", "Franklin"]);
             using NodeJS; run(`$(npm_cmd()) install highlight.js`);
             using Franklin;
             Pkg.activate("."); Pkg.instantiate();
             optimize()'
+        ls -a
     - name: Fix URLs for PR preview deployment (pull request previews)
       if: github.event_name == 'pull_request'
       run: |
@@ -58,3 +60,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # Replace here the branch where your website is deployed
           FOLDER: __site
+          clean-exclude: "previews"
