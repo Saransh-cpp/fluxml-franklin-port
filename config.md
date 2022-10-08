@@ -5,7 +5,7 @@ mintoclevel = 2
 website_title = "Flux.jl"
 website_descr = "The elegant machine learning library"
 website_url = "https://fluxml.ai"
-website_img = "/assets/images/FluxGitHubPreview.png"
+website_img = "/_assets/images/FluxGitHubPreview.png"
 website_footer = """
   Flux: A Deep Learning Library for the Julia Programming Language
   """
