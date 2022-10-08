@@ -58,4 +58,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # Replace here the branch where your website is deployed
           FOLDER: __site
-          CLEAN_EXCLUDE: "previews"
+          CLEAN_EXCLUDE: "previews/*"
