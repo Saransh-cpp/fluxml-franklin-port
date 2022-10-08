@@ -36,9 +36,23 @@ jobs:
             using Franklin;
             Pkg.activate("."); Pkg.instantiate();
             optimize()'
-    - name: Build and Deploy
+    - name: Fix URLs for PR preview deployment (pull request previews)
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "PREVIEW_FRANKLIN_WEBSITE_URL=https://saransh-cpp.github.io/fluxml-franklin-port/previews/PR${{ github.event.number }}/" >> $GITHUB_ENV
+        echo "PREVIEW_FRANKLIN_PREPATH=previews/PR${{ github.event.number }}" >> $GITHUB_ENV
+    - name: Deploy (preview)
+      if: github.event_name == 'pull_request' && github.repository == github.event.pull_request.head.repo.full_name # if this build is a PR build and the PR is NOT from a fork
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: __site
+          BRANCH: gh-pages # The branch where the PRs previews are stored
+          FOLDER: __site
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_FOLDER: "previews/PR${{ github.event.number }}" # The website preview is going to be stored in a subfolder
+    - name: Deploy (main)
+      if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # Replace here the branch where your website is deployed
+          FOLDER: __site
