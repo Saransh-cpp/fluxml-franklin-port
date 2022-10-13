@@ -1,4 +1,4 @@
-Sitemap: fluxml.ai/sitemap.xml
+Sitemap: saransh-cpp.github.io/sitemap.xml
 
 User-agent: *
 Disallow:
